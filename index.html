@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taller Mecánico SERVIEXPRESS</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#home">Inicio</a></li>
+                <li><a href="#catalog">Servicios</a></li>
+                <li><a href="#testimonials">Testimonios</a></li>
+                <li><a href="#contact">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+<section id="user-links">
+    <h2>Accesos Vistas</h2>
+    <ul>
+        <li><a href="empleado.html">Vista de Empleado</a></li>
+        <li><a href="administrador.html">Vista de Administrador</a></li>
+    </ul>
+</section>
+    <section id="home">
+        <h2>Bienvenido a Taller Mecánico SERVIEXPRESS</h2>
+        <p>Ofrecemos servicios de reparación y mantenimiento de vehículos con la mejor calidad y atención al cliente.</p>
+        <img src="imagenes\foto taller.jpg" alt="Taller Mecánico" style="width:100%; height:auto;">
+    </section>
+
+
+    <section id="catalog">
+        <h2>Catálogo de Servicios</h2>
+        <div class="catalog-item">
+            <h3>Reparación de Motores</h3>
+            <p>Servicio completo de reparación de motores para todo tipo de vehículos.</p>
+            <button>Más Información</button>
+        </div>
+        <div class="catalog-item">
+            <h3>Cambio de Aceite</h3>
+            <p>Cambio de aceite rápido y eficiente para mantener tu motor en óptimas condiciones.</p>
+            <button>Más Información</button>
+        </div>
+        <div class="catalog-item">
+            <h3>Alineación y Balanceo</h3>
+            <p>Servicio de alineación y balanceo para una conducción segura y cómoda.</p>
+            <button>Más Información</button>
+        </div>
+        <div class="catalog-item">
+            <h3>Diagnóstico Computarizado</h3>
+            <p>Diagnóstico computarizado para detectar y solucionar problemas en tu vehículo.</p>
+            <button>Más Información</button>
+        </div>
+    </section>
+
+    <section id="testimonials">
+        <h2>Testimonios de Clientes</h2>
+        <blockquote>
+            <p>"Excelente servicio, muy profesionales y rápidos. ¡Recomendado!"</p>
+            <footer>- Juan Pérez</footer>
+        </blockquote>
+        <blockquote>
+            <p>"El mejor taller mecánico de la comuna. Siempre confío en ellos para el mantenimiento de mi auto."</p>
+            <footer>- María González</footer>
+        </blockquote>
+    </section>
+
+    <section id="contact">
+        <h2>Contacto</h2>
+        <form>
+            <label for="name">Nombre:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="email">Correo Electrónico:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="phone">Teléfono:</label>
+            <input type="tel" id="phone" name="phone" required>
+            <label for="message">Mensaje:</label>
+            <textarea id="message" name="message" required></textarea>
+            <button type="submit">Enviar</button>
+        </form>
+    </section>
+</body>
+</html>
