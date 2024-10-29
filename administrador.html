@@ -3,64 +3,297 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vista de Administrador</title>
+    <title>Gestión de Administrador</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <nav>
-            <ul>
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="#manage-invoices">Gestión de Facturas y Pagos</a></li>
-                <li><a href="#manage-providers">Gestión de Proveedores</a></li>
-                <li><a href="#manage-employees">Gestión de Empleados</a></li>
-                <li><a href="#reports">Informes y Estadísticas</a></li>
-            </ul>
-        </nav>
+        <h1>Panel de Gestión del Administrador</h1>
     </header>
 
-    <section id="admin-section">
-        <h2>Vista de Administrador</h2>
-        <p>Contenido exclusivo para administradores.</p>
-    </section>
-
-    <section id="manage-invoices">
-        <h2>Gestión de Facturas y Pagos</h2>
-        <p>Aquí puedes gestionar las facturas y pagos realizados por los clientes.</p>
+    <nav>
         <ul>
-            <li><a href="#create-invoice">Crear Factura</a></li>
-            <li><a href="#modify-invoice">Modificar Factura</a></li>
-            <li><a href="#cancel-invoice">Anular Factura</a></li>
-        </ul>
-    </section>
+            <li><a href="#facturacion" style="color: white;">Facturación y Pagos</a></li>
+            <li><a href="#empleados" style="color: white;">Empleados</a></li>
+            <li><a href="#proveedores" style="color: white;">Proveedores</a></li>
+        </ul>  
+    </nav>
 
-    <section id="manage-providers">
-        <h2>Gestión de Proveedores</h2>
-        <p>Aquí puedes gestionar los proveedores del taller.</p>
-        <ul>
-            <li><a href="#register-provider">Registrar Proveedor</a></li>
-            <li><a href="#modify-provider">Modificar Proveedor</a></li>
-            <li><a href="#delete-provider">Eliminar Proveedor</a></li>
-        </ul>
-    </section>
+    <main>
+        
+        <section id="facturacion">
+            <h2>Facturación y Pagos</h2>
+            <h3>Agregar Factura</h3>
+            <form id="agregarFacturaForm">
+                <label for="numero_factura">Número de Factura:</label>
+                <input type="text" id="numero_factura" name="numero_factura" required>
+                <label for="fecha_emision">Fecha de Emisión:</label>
+                <input type="date" id="fecha_emision" name="fecha_emision" required>
+                <label for="total">Total:</label>
+                <input type="number" id="total" name="total" step="0.01" required>
+                <label for="estado_pago">Estado de Pago:</label>
+                <select id="estado_pago" name="estado_pago" required>
+                    <option value="pendiente">Pendiente</option>
+                    <option value="pagado">Pagado</option>
+                    <option value="cancelado">Cancelado</option>
+                </select>
+                <button type="submit">Agregar</button>
+            </form>
 
-    <section id="manage-employees">
-        <h2>Gestión de Empleados</h2>
-        <p>Aquí puedes gestionar los empleados del taller.</p>
-        <ul>
-            <li><a href="#register-employee">Registrar Empleado</a></li>
-            <li><a href="#modify-employee">Modificar Empleado</a></li>
-            <li><a href="#delete-employee">Eliminar Empleado</a></li>
-        </ul>
-    </section>
+            <h3>Modificar/Eliminar Factura</h3>
+            <table id="facturasTable">
+                <thead>
+                    <tr>
+                        <th>Número de Factura</th>
+                        <th>Fecha de Emisión</th>
+                        <th>Total</th>
+                        <th>Estado de Pago</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Aquí se agregarán las facturas dinámicamente -->
+                </tbody>
+            </table>
 
-    <section id="reports">
-        <h2>Informes y Estadísticas</h2>
-        <p>Aquí puedes generar informes y estadísticas del taller.</p>
-        <ul>
-            <li><a href="#generate-report">Generar Informe</a></li>
-            <li><a href="#view-statistics">Ver Estadísticas</a></li>
-        </ul>
-    </section>
+            <script>
+                document.getElementById('agregarFacturaForm').addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    const numeroFactura = document.getElementById('numero_factura').value;
+                    const fechaEmision = document.getElementById('fecha_emision').value;
+                    const total = document.getElementById('total').value;
+                    const estadoPago = document.getElementById('estado_pago').value;
+
+                    const table = document.getElementById('facturasTable').getElementsByTagName('tbody')[0];
+                    const newRow = table.insertRow();
+
+                    newRow.innerHTML = `
+                        <td>${numeroFactura}</td>
+                        <td>${fechaEmision}</td>
+                        <td>${total}</td>
+                        <td>${estadoPago}</td>
+                        <td>
+                            <button class="modificar">Modificar</button>
+                            <button class="eliminar">Eliminar</button>
+                        </td>
+                    `;
+
+                    newRow.querySelector('.eliminar').addEventListener('click', function() {
+                        table.deleteRow(newRow.rowIndex - 1);
+                    });
+
+                    newRow.querySelector('.modificar').addEventListener('click', function() {
+                        document.getElementById('numero_factura').value = numeroFactura;
+                        document.getElementById('fecha_emision').value = fechaEmision;
+                        document.getElementById('total').value = total;
+                        document.getElementById('estado_pago').value = estadoPago;
+                        table.deleteRow(newRow.rowIndex - 1);
+                    });
+
+                    document.getElementById('agregarFacturaForm').reset();
+                });
+            </script>
+        </section>
+
+        <section id="empleados">
+            <h2>Gestión de Empleados</h2>
+            <h3>Agregar Empleado</h3>
+            <form id="agregarEmpleadoForm">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido" name="apellido" required>
+            <label for="especialidad">Especialidad:</label>
+            <input type="text" id="especialidad" name="especialidad" required>
+            <label for="disponibilidad">Disponibilidad:</label>
+            <select id="disponibilidad" name="disponibilidad" required>
+                <option value="disponible">Disponible</option>
+                <option value="no_disponible">No Disponible</option>
+            </select>
+            <button type="submit">Agregar</button>
+            </form>
+
+            <h3>Modificar/Eliminar Empleado</h3>
+            <table id="empleadosTable">
+            <thead>
+                <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Especialidad</th>
+                <th>Disponibilidad</th>
+                <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Aquí se agregarán los empleados dinámicamente -->
+            </tbody>
+            </table>
+
+            <script>
+            document.getElementById('agregarEmpleadoForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                const nombre = document.getElementById('nombre').value;
+                const apellido = document.getElementById('apellido').value;
+                const especialidad = document.getElementById('especialidad').value;
+                const disponibilidad = document.getElementById('disponibilidad').value;
+
+                const table = document.getElementById('empleadosTable').getElementsByTagName('tbody')[0];
+                const newRow = table.insertRow();
+
+                newRow.innerHTML = `
+                <td>${nombre}</td>
+                <td>${apellido}</td>
+                <td>${especialidad}</td>
+                <td>${disponibilidad}</td>
+                <td>
+                    <button class="modificar">Modificar</button>
+                    <button class="eliminar">Eliminar</button>
+                </td>
+                `;
+
+                newRow.querySelector('.eliminar').addEventListener('click', function() {
+                table.deleteRow(newRow.rowIndex - 1);
+                });
+
+                newRow.querySelector('.modificar').addEventListener('click', function() {
+                document.getElementById('nombre').value = nombre;
+                document.getElementById('apellido').value = apellido;
+                document.getElementById('especialidad').value = especialidad;
+                document.getElementById('disponibilidad').value = disponibilidad;
+                table.deleteRow(newRow.rowIndex - 1);
+                });
+
+                document.getElementById('agregarEmpleadoForm').reset();
+            });
+            </script>
+        </section>
+
+        <section id="proveedores">
+            <h2>Gestión de Proveedores</h2>
+            <h3>Agregar Proveedor</h3>
+            <form id="agregarProveedorForm">
+                <label for="nombre_proveedor">Nombre del Proveedor:</label>
+                <input type="text" id="nombre_proveedor" name="nombre_proveedor" required>
+                <label for="telefono">Teléfono:</label>
+                <input type="number" id="telefono" name="telefono" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <button type="submit">Agregar</button>
+            </form>
+
+            <h3>Modificar/Eliminar Proveedor</h3>
+            <table id="proveedoresTable">
+                <thead>
+                    <tr>
+                        <th>Nombre del Proveedor</th>
+                        <th>Teléfono</th>
+                        <th>Email</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Aquí se agregarán los proveedores dinámicamente -->
+                </tbody>
+            </table>
+
+            <script>
+                document.getElementById('agregarProveedorForm').addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    const nombreProveedor = document.getElementById('nombre_proveedor').value;
+                    const telefono = document.getElementById('telefono').value;
+                    const email = document.getElementById('email').value;
+
+                    const table = document.getElementById('proveedoresTable').getElementsByTagName('tbody')[0];
+                    const newRow = table.insertRow();
+
+                    newRow.innerHTML = `
+                        <td>${nombreProveedor}</td>
+                        <td>${telefono}</td>
+                        <td>${email}</td>
+                        <td>
+                            <button class="modificar">Modificar</button>
+                            <button class="eliminar">Eliminar</button>
+                        </td>
+                    `;
+
+                    newRow.querySelector('.eliminar').addEventListener('click', function() {
+                        table.deleteRow(newRow.rowIndex - 1);
+                    });
+
+                    newRow.querySelector('.modificar').addEventListener('click', function() {
+                        document.getElementById('nombre_proveedor').value = nombreProveedor;
+                        document.getElementById('telefono').value = telefono;
+                        document.getElementById('email').value = email;
+                        table.deleteRow(newRow.rowIndex - 1);
+                    });
+
+                    document.getElementById('agregarProveedorForm').reset();
+                });
+            </script>
+        </section>
+
+        <section id="estadisticas">
+            <h2>Estadísticas e Informes</h2>
+            <h3>Resumen de Facturación</h3>
+            <div id="resumenFacturacion">
+                <!-- Aquí se mostrarán las estadísticas de facturación -->
+            </div>
+
+            <h3>Resumen de Empleados</h3>
+            <div id="resumenEmpleados">
+                <!-- Aquí se mostrarán las estadísticas de empleados -->
+            </div>
+
+            <h3>Resumen de Proveedores</h3>
+            <div id="resumenProveedores">
+                <!-- Aquí se mostrarán las estadísticas de proveedores -->
+            </div>
+
+            <script>
+                // Función para actualizar las estadísticas de facturación
+                function actualizarEstadisticasFacturacion() {
+                    const facturas = document.querySelectorAll('#facturasTable tbody tr');
+                    let totalFacturado = 0;
+                    facturas.forEach(factura => {
+                        const total = parseFloat(factura.cells[2].innerText);
+                        totalFacturado += total;
+                    });
+                    document.getElementById('resumenFacturacion').innerText = `Total Facturado: $${totalFacturado.toFixed(2)}`;
+                }
+
+                // Función para actualizar las estadísticas de empleados
+                function actualizarEstadisticasEmpleados() {
+                    const empleados = document.querySelectorAll('#empleadosTable tbody tr');
+                    const totalEmpleados = empleados.length;
+                    document.getElementById('resumenEmpleados').innerText = `Total de Empleados: ${totalEmpleados}`;
+                }
+
+                // Función para actualizar las estadísticas de proveedores
+                function actualizarEstadisticasProveedores() {
+                    const proveedores = document.querySelectorAll('#proveedoresTable tbody tr');
+                    const totalProveedores = proveedores.length;
+                    document.getElementById('resumenProveedores').innerText = `Total de Proveedores: ${totalProveedores}`;
+                }
+
+                // Actualizar estadísticas al cargar la página
+                document.addEventListener('DOMContentLoaded', function() {
+                    actualizarEstadisticasFacturacion();
+                    actualizarEstadisticasEmpleados();
+                    actualizarEstadisticasProveedores();
+                });
+
+                // Actualizar estadísticas cada vez que se agregue una nueva entrada
+                document.getElementById('agregarFacturaForm').addEventListener('submit', actualizarEstadisticasFacturacion);
+                document.getElementById('agregarEmpleadoForm').addEventListener('submit', actualizarEstadisticasEmpleados);
+                document.getElementById('agregarProveedorForm').addEventListener('submit', actualizarEstadisticasProveedores);
+            </script>
+            
+        </section>
+
+
+    </main>
+    <footer>
+        <p>&copy; SERVIEXPRESS. Todos los derechos reservados.</p>
+    </footer>
 </body>
 </html>

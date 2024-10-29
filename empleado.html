@@ -3,23 +3,374 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vista de Empleado</title>
+    <title>Gestión de Empleado</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <nav>
-            <ul>
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="#services">Servicios</a></li>
-                <li><a href="#about">Acerca de</a></li>
-                <li><a href="#contact">Contacto</a></li>
-            </ul>
-        </nav>
+        <h1>Panel de Gestión del Empleado</h1>
     </header>
+    <nav>
+        <ul>
+            <li><a href="#reservas">Gestión de Reservas</a></li>
+            <li><a href="#servicios">Gestión de Servicios</a></li>
+            <li><a href="#clientes">Gestión de Clientes</a></li>
+            <li><a href="#inventario">Gestión de Inventario</a></li>
+            <li><a href="#facturacion">Facturación y Pagos</a></li>
+        </ul>
+    </nav>
+    <main>
+        <section id="reservas">
+            <h2>Gestión de Reservas</h2>
+            <h3>Agregar Reserva</h3>
+            <form id="agregarReservaForm">
+                <label for="fecha_reserva">Fecha de Reserva:</label>
+                <input type="date" id="fecha_reserva" name="fecha_reserva" required>
+                <label for="hora_reserva">Hora de Reserva:</label>
+                <input type="time" id="hora_reserva" name="hora_reserva" required>
+                <label for="estado">Estado:</label>
+                <select id="estado" name="estado" required>
+                    <option value="pendiente">Pendiente</option>
+                    <option value="confirmada">Confirmada</option>
+                    <option value="cancelada">Cancelada</option>
+                </select>
+                <label for="precio_total">Precio Total:</label>
+                <input type="number" id="precio_total" name="precio_total" step="0.01" required>
+                <button type="submit">Agregar</button>
+            </form>
 
-    <section id="employee-section">
-        <h2>Vista de Empleado</h2>
-        <p>Contenido exclusivo para empleados.</p>
-    </section>
+            <h3>Modificar/Eliminar Reserva</h3>
+            <table id="reservasTable">
+                <thead>
+                    <tr>
+                        <th>Fecha de Reserva</th>
+                        <th>Hora de Reserva</th>
+                        <th>Estado</th>
+                        <th>Precio Total</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Aquí se agregarán las reservas dinámicamente -->
+                </tbody>
+            </table>
+
+            <script>
+                document.getElementById('agregarReservaForm').addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    const fechaReserva = document.getElementById('fecha_reserva').value;
+                    const horaReserva = document.getElementById('hora_reserva').value;
+                    const estado = document.getElementById('estado').value;
+                    const precioTotal = document.getElementById('precio_total').value;
+
+                    const table = document.getElementById('reservasTable').getElementsByTagName('tbody')[0];
+                    const newRow = table.insertRow();
+
+                    newRow.innerHTML = `
+                        <td>${fechaReserva}</td>
+                        <td>${horaReserva}</td>
+                        <td>${estado}</td>
+                        <td>${precioTotal}</td>
+                        <td>
+                            <button class="modificar">Modificar</button>
+                            <button class="eliminar">Eliminar</button>
+                        </td>
+                    `;
+
+                    newRow.querySelector('.eliminar').addEventListener('click', function() {
+                        table.deleteRow(newRow.rowIndex - 1);
+                    });
+
+                    newRow.querySelector('.modificar').addEventListener('click', function() {
+                        document.getElementById('fecha_reserva').value = fechaReserva;
+                        document.getElementById('hora_reserva').value = horaReserva;
+                        document.getElementById('estado').value = estado;
+                        document.getElementById('precio_total').value = precioTotal;
+                        table.deleteRow(newRow.rowIndex - 1);
+                    });
+
+                    document.getElementById('agregarReservaForm').reset();
+                });
+            </script>
+        </section>
+
+        <section id="servicios">
+            <h2>Gestión de Servicios</h2>
+            <h3>Agregar Servicio</h3>
+            <form id="agregarServicioForm">
+                <label for="nombre_servicio">Nombre del Servicio:</label>
+                <input type="text" id="nombre_servicio" name="nombre_servicio" required>
+                <label for="precio">Precio:</label>
+                <input type="number" id="precio" name="precio" step="0.01" required>
+                <label for="duracion_hora_estimada">Duración Estimada (Horas):</label>
+                <input type="number" id="duracion_hora_estimada" name="duracion_hora_estimada" step="0.1" required>
+                <button type="submit">Agregar</button>
+            </form>
+
+            <h3>Modificar/Eliminar Servicio</h3>
+            <table id="serviciosTable">
+                <thead>
+                    <tr>
+                        <th>Nombre del Servicio</th>
+                        <th>Precio</th>
+                        <th>Duración Estimada (Horas)</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Aquí se agregarán los servicios dinámicamente -->
+                </tbody>
+            </table>
+
+            <script>
+                document.getElementById('agregarServicioForm').addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    const nombreServicio = document.getElementById('nombre_servicio').value;
+                    const precio = document.getElementById('precio').value;
+                    const duracionHoraEstimada = document.getElementById('duracion_hora_estimada').value;
+
+                    const table = document.getElementById('serviciosTable').getElementsByTagName('tbody')[0];
+                    const newRow = table.insertRow();
+
+                    newRow.innerHTML = `
+                        <td>${nombreServicio}</td>
+                        <td>${precio}</td>
+                        <td>${duracionHoraEstimada}</td>
+                        <td>
+                            <button class="modificar">Modificar</button>
+                            <button class="eliminar">Eliminar</button>
+                        </td>
+                    `;
+
+                    newRow.querySelector('.eliminar').addEventListener('click', function() {
+                        table.deleteRow(newRow.rowIndex - 1);
+                    });
+
+                    newRow.querySelector('.modificar').addEventListener('click', function() {
+                        document.getElementById('nombre_servicio').value = nombreServicio;
+                        document.getElementById('precio').value = precio;
+                        document.getElementById('duracion_hora_estimada').value = duracionHoraEstimada;
+                        table.deleteRow(newRow.rowIndex - 1);
+                    });
+
+                    document.getElementById('agregarServicioForm').reset();
+                });
+            </script></form>
+        </section>
+        <section id="clientes">
+            <h2>Gestión de Clientes</h2>
+            <h3>Agregar Cliente</h3>
+            <form id="agregarClienteForm">
+                <label for="nombre_cliente">Nombre:</label>
+                <input type="text" id="nombre_cliente" name="nombre_cliente" required>
+                <label for="apellido_cliente">Apellido:</label>
+                <input type="text" id="apellido_cliente" name="apellido_cliente" required>
+                <label for="email_cliente">Email:</label>
+                <input type="email" id="email_cliente" name="email_cliente" required>
+                <label for="telefono_cliente">Teléfono:</label>
+                <input type="tel" id="telefono_cliente" name="telefono_cliente" required>
+                <button type="submit">Agregar</button>
+            </form>
+
+            <h3>Modificar/Eliminar Cliente</h3>
+            <table id="clientesTable">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Email</th>
+                        <th>Teléfono</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Aquí se agregarán los clientes dinámicamente -->
+                </tbody>
+            </table>
+
+            <script>
+                document.getElementById('agregarClienteForm').addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    const nombreCliente = document.getElementById('nombre_cliente').value;
+                    const apellidoCliente = document.getElementById('apellido_cliente').value;
+                    const emailCliente = document.getElementById('email_cliente').value;
+                    const telefonoCliente = document.getElementById('telefono_cliente').value;
+
+                    const table = document.getElementById('clientesTable').getElementsByTagName('tbody')[0];
+                    const newRow = table.insertRow();
+
+                    newRow.innerHTML = `
+                        <td>${nombreCliente}</td>
+                        <td>${apellidoCliente}</td>
+                        <td>${emailCliente}</td>
+                        <td>${telefonoCliente}</td>
+                        <td>
+                            <button class="modificar">Modificar</button>
+                            <button class="eliminar">Eliminar</button>
+                        </td>
+                    `;
+
+                    newRow.querySelector('.eliminar').addEventListener('click', function() {
+                        table.deleteRow(newRow.rowIndex - 1);
+                    });
+
+                    newRow.querySelector('.modificar').addEventListener('click', function() {
+                        document.getElementById('nombre_cliente').value = nombreCliente;
+                        document.getElementById('apellido_cliente').value = apellidoCliente;
+                        document.getElementById('email_cliente').value = emailCliente;
+                        document.getElementById('telefono_cliente').value = telefonoCliente;
+                        table.deleteRow(newRow.rowIndex - 1);
+                    });
+
+                    document.getElementById('agregarClienteForm').reset();
+                });
+            </script>
+        </section>
+        <section id="inventario">
+            <h2>Gestión de Inventario</h2>
+            <h3>Agregar Producto</h3>
+            <form id="agregarProductoForm">
+                <label for="id_producto">ID del Producto:</label>
+                <input type="text" id="id_producto" name="id_producto" required>
+                <label for="tipo_producto">Tipo de Producto:</label>
+                <input type="text" id="tipo_producto" name="tipo_producto" required>
+                <label for="nombre_producto">Nombre del Producto:</label>
+                <input type="text" id="nombre_producto" name="nombre_producto" required>
+                <label for="cantidad_producto">Cantidad:</label>
+                <input type="number" id="cantidad_producto" name="cantidad_producto" required>
+                <button type="submit">Agregar</button>
+            </form>
+
+            <h3>Modificar/Eliminar Producto</h3>
+            <table id="inventarioTable">
+                <thead>
+                    <tr>
+                        <th>ID del Producto</th>
+                        <th>Tipo de Producto</th>
+                        <th>Nombre del Producto</th>
+                        <th>Cantidad</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Aquí se agregarán los productos dinámicamente -->
+                </tbody>
+            </table>
+
+            <script>
+                document.getElementById('agregarProductoForm').addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    const idProducto = document.getElementById('id_producto').value;
+                    const tipoProducto = document.getElementById('tipo_producto').value;
+                    const nombreProducto = document.getElementById('nombre_producto').value;
+                    const cantidadProducto = document.getElementById('cantidad_producto').value;
+
+                    const table = document.getElementById('inventarioTable').getElementsByTagName('tbody')[0];
+                    const newRow = table.insertRow();
+
+                    newRow.innerHTML = `
+                        <td>${idProducto}</td>
+                        <td>${tipoProducto}</td>
+                        <td>${nombreProducto}</td>
+                        <td>${cantidadProducto}</td>
+                        <td>
+                            <button class="modificar">Modificar</button>
+                            <button class="eliminar">Eliminar</button>
+                        </td>
+                    `;
+
+                    newRow.querySelector('.eliminar').addEventListener('click', function() {
+                        table.deleteRow(newRow.rowIndex - 1);
+                    });
+
+                    newRow.querySelector('.modificar').addEventListener('click', function() {
+                        document.getElementById('id_producto').value = idProducto;
+                        document.getElementById('tipo_producto').value = tipoProducto;
+                        document.getElementById('nombre_producto').value = nombreProducto;
+                        document.getElementById('cantidad_producto').value = cantidadProducto;
+                        table.deleteRow(newRow.rowIndex - 1);
+                    });
+
+                    document.getElementById('agregarProductoForm').reset();
+                });
+            </script>
+        </section>
+        <section id="facturacion">
+            <h2>Facturación y Pagos</h2>
+            <h3>Agregar Factura</h3>
+            <form id="agregarFacturaForm">
+                <label for="numero_factura">Número de Factura:</label>
+                <input type="text" id="numero_factura" name="numero_factura" required>
+                <label for="fecha_emision">Fecha de Emisión:</label>
+                <input type="date" id="fecha_emision" name="fecha_emision" required>
+                <label for="total">Total:</label>
+                <input type="number" id="total" name="total" step="0.01" required>
+                <label for="estado_pago">Estado de Pago:</label>
+                <select id="estado_pago" name="estado_pago" required>
+                    <option value="pendiente">Pendiente</option>
+                    <option value="pagado">Pagado</option>
+                    <option value="cancelado">Cancelado</option>
+                </select>
+                <button type="submit">Agregar</button>
+            </form>
+
+            <h3>Modificar/Eliminar Factura</h3>
+            <table id="facturasTable">
+                <thead>
+                    <tr>
+                        <th>Número de Factura</th>
+                        <th>Fecha de Emisión</th>
+                        <th>Total</th>
+                        <th>Estado de Pago</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Aquí se agregarán las facturas dinámicamente -->
+                </tbody>
+            </table>
+
+            <script>
+                document.getElementById('agregarFacturaForm').addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    const numeroFactura = document.getElementById('numero_factura').value;
+                    const fechaEmision = document.getElementById('fecha_emision').value;
+                    const total = document.getElementById('total').value;
+                    const estadoPago = document.getElementById('estado_pago').value;
+
+                    const table = document.getElementById('facturasTable').getElementsByTagName('tbody')[0];
+                    const newRow = table.insertRow();
+
+                    newRow.innerHTML = `
+                        <td>${numeroFactura}</td>
+                        <td>${fechaEmision}</td>
+                        <td>${total}</td>
+                        <td>${estadoPago}</td>
+                        <td>
+                            <button class="modificar">Modificar</button>
+                            <button class="eliminar">Eliminar</button>
+                        </td>
+                    `;
+
+                    newRow.querySelector('.eliminar').addEventListener('click', function() {
+                        table.deleteRow(newRow.rowIndex - 1);
+                    });
+
+                    newRow.querySelector('.modificar').addEventListener('click', function() {
+                        document.getElementById('numero_factura').value = numeroFactura;
+                        document.getElementById('fecha_emision').value = fechaEmision;
+                        document.getElementById('total').value = total;
+                        document.getElementById('estado_pago').value = estadoPago;
+                        table.deleteRow(newRow.rowIndex - 1);
+                    });
+
+                    document.getElementById('agregarFacturaForm').reset();
+                });
+            </script>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; SERVIEXPRESS. Todos los derechos reservados.</p>
+    </footer>
 </body>
 </html>
